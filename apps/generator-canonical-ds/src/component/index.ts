@@ -1,9 +1,10 @@
 import path from "node:path";
-import Generator, { type Question } from "yeoman-generator";
+import Generator from "yeoman-generator";
 import globalContext from "../app/global-context.js";
 import casing from "../utils/casing.js";
+import processInput, { CLIType, type QuestionPrompt } from "../utils/cli.js";
 
-interface ComponentGeneratorAnswers {
+interface ComponentGeneratorArgs {
   /** The path to the component's root directory */
   componentAbsolutePath: string;
   /** Whether to include styles in the component */
@@ -13,12 +14,12 @@ interface ComponentGeneratorAnswers {
 }
 
 export default class ComponentGenerator extends Generator {
-  answers?: ComponentGeneratorAnswers;
-
-  questions: Question[] = [
+  questions: QuestionPrompt[] = [
     {
-      type: "input",
       name: "componentAbsolutePath",
+      cliType: CLIType.Argument,
+      cliValueType: String,
+      promptValueType: "input",
       message:
         "Enter the component's name, including its path (ex: `form/input/Checkbox`):",
       default: ".",
@@ -30,18 +31,23 @@ export default class ComponentGenerator extends Generator {
       },
     },
     {
-      type: "confirm",
       name: "includeStyles",
+      cliType: CLIType.Option,
+      cliValueType: Boolean,
+      promptValueType: "confirm",
       message: "Do you want to include styles?",
       default: true,
     },
     {
-      type: "confirm",
       name: "includeStorybook",
+      cliType: CLIType.Option,
+      cliValueType: Boolean,
+      promptValueType: "confirm",
       message: "Would you like to include a story file?",
       default: true,
     },
   ];
+  answers?: ComponentGeneratorArgs;
 
   initializing() {
     this.log("Welcome to the component generator!");
@@ -50,8 +56,11 @@ export default class ComponentGenerator extends Generator {
     );
   }
 
-  async prompting() {
-    this.answers = await this.prompt<ComponentGeneratorAnswers>(this.questions);
+  async input() {
+    this.answers = await processInput<ComponentGeneratorArgs>(
+      this,
+      this.questions,
+    );
   }
 
   /**
