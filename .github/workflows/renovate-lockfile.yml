@@ -1,0 +1,41 @@
+# This workflow manually updates the bun.lockb file when a pull request is opened by the Renovate bot.
+# This is a workaround until https://github.com/canonical/ds25/issues/47 is closed.
+
+name: "Renovate: Update Bun lockfile"
+
+on:
+  pull_request:
+    paths:
+      - "**/package.json"
+
+permissions:
+  contents: write
+
+jobs:
+  update-bun-lockb:
+    name: "Update bun.lockb"
+    if: github.actor == 'renovate[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup environment
+        uses: ./.github/actions/setup-env
+        with:
+          ignore-scripts: true
+          frozen-lockfile: false
+
+      - name: Setup Git CLI
+        uses: ./.github/actions/setup-git
+        with:
+          name: ${{ github.actor }}
+          email: ${{ github.actor }}@users.noreply.github.com
+
+      - name: Update bun lockfile
+        run: |
+          git add bun.lockb
+          git commit -m "chore: update bun lockfile"
+          git push
