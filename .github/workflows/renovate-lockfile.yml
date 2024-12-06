@@ -1,7 +1,7 @@
 # This workflow manually updates the bun.lockb file when a pull request is opened by the Renovate bot.
 # This is a workaround until https://github.com/canonical/ds25/issues/47 is closed.
 
-name: "Renovate: Update bun.lockb"
+name: "Renovate: Update Bun lockfile"
 
 on:
   pull_request:
@@ -34,8 +34,8 @@ jobs:
           name: ${{ github.actor }}
           email: ${{ github.actor }}@users.noreply.github.com
 
-      - name: Update bun.lockb
+      - name: Update bun lockfile
         run: |
           git add bun.lockb
-          git commit --amend --no-edit
-          git push --force
+          git commit -m "chore: update bun lockfile"
+          git push
