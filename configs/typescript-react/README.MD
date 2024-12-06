@@ -16,6 +16,8 @@ which provides more general TypeScript settings and is suitable for non-React pr
 }
 ```
 
+TEST REACT CHANGE
+
 ## Configuration
 
 This configuration enables the following behavior:
