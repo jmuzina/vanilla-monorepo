@@ -12,6 +12,8 @@ a set of default configurations for Biome projects.
 
 Create `biome.json` in the root of your project and extend this configuration.
 
+some change
+
 ```json
 {
   "$schema": "https://biomejs.dev/schemas/1.9.2/schema.json",
