@@ -3,6 +3,20 @@
 This generator creates a new React component with a basic structure.
 
 ### Getting Started
-1. Install [Yeoman](https://yeoman.io/): `bun add -g yo`
-2. Run the generator: `yo @canonical/canonical-ds:component`
-3. Follow the prompts to create a new React component
+Install [Yeoman](https://yeoman.io/): `npm i -g yo @canonical/generator-canonical-ds`
+
+#### CLI Mode
+By default, this generator runs in CLI mode.
+
+Run the generator with the following command:
+`yo @canonical/canonical-ds:component path`
+
+The following optional flags can be used:
+- `--includeStyles`: Include a CSS file for the component.
+- `--includeStorybook`: Include a Storybook file for the component.
+
+#### Interactive mode
+Use the `--interactive` flag to run the generator in interactive mode for a guided experience.
+`yo @canonical/canonical-ds:component --interactive`
+
+
